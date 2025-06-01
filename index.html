@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festive Firecrackers with 3D Cake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1a1a3d, #2a2a5e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .cake-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .cake {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            border-radius: 30px;
+            box-shadow: 
+                0 0 20px 10px rgba(26, 26, 61, 0.7), /* Inner shadow matching top background */
+                0 0 40px 20px rgba(42, 42, 94, 0.5); /* Outer shadow matching bottom background */
+        }
+        .cake img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+        .candle {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 50px;
+            background: linear-gradient(#f0e6d6, #e0d6c6);
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        .flame {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 18px;
+            background: radial-gradient(#ffaa00, #ff5500);
+            border-radius: 50% 50% 0 0;
+            animation: flicker 0.2s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .sky-text {
+            position: absolute;
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            color: #ffffff;
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        .sky-subtext {
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            color: #ffd700; /* Golden color */
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            letter-spacing: 1.5px;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            white-space: nowrap;
+        }
+        .cake-text {
+            position: relative;
+            margin-top: 15px;
+            z-index: 2;
+            text-align: center;
+            color: #ffd700; /* Golden color */
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.7); }
+        }
+        @media (max-width: 600px) {
+            .sky-text {
+                font-size: 28px;
+            }
+            .sky-subtext {
+                font-size: 20px;
+                top: 20%;
+            }
+            .cake {
+                width: 250px;
+                height: 250px;
+                box-shadow: 
+                    0 0 15px 8px rgba(26, 26, 61, 0.7),
+                    0 0 30px 15px rgba(42, 42, 94, 0.5);
+            }
+            .candle {
+                width: 10px;
+                height: 35px;
+                top: -35px;
+            }
+            .flame {
+                width: 8px;
+                height: 15px;
+            }
+            .cake-text {
+                font-size: 18px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="stars" id="stars"></div>
+    <div class="sky-text">Happy Birthday To You</div>
+    <div class="sky-subtext">Shofiyyah, I Love You Sayang</div>
+    <div class="cake-container">
+        <div class="cake">
+            <img src="https://raw.githubusercontent.com/HackBugs/Happy_Birthday_To_You/main/3d-cake.jpg" alt="3D Chocolate Cake">
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+        </div>
+        <div class="cake-text">2, June 2025 Now you are 21 Years old Baby</div>
+    </div>
+    <audio id="birthdaySound" src="https://raw.githubusercontent.com/HackBugs/Happy_Birthday_To_You/main/sound/happy-birthday-254480.mp3" preload="auto" loop autoplay></audio>
+    <audio id="fireworkSound" src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_4f3a3e72b8.mp3" preload="auto"></audio>
+    <script>
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        const birthdaySound = document.getElementById('birthdaySound');
+        const fireworkSound = document.getElementById('fireworkSound');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Play background music
+        birthdaySound.volume = 0.5; // Adjust volume for background music
+        birthdaySound.play().catch(() => {});
+
+        // Stars in the sky
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 50}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Fireworks animation
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 2 + 1;
+                this.vx = Math.random() * 4 - 2;
+                this.vy = Math.random() * 4 - 2;
+                this.life = 100;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.02; // Gravity
+                this.life--;
+                this.radius *= 0.98; // Fade out
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        class Firework {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height;
+                this.targetY = Math.random() * canvas.height * 0.5;
+                this.vy = -(Math.random() * 5 + 5);
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                this.particles = [];
+                this.exploded = false;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.y += this.vy;
+                    if (this.y <= this.targetY) {
+                        this.explode();
+                    }
+                } else {
+                    this.particles.forEach(p => p.update());
+                    this.particles = this.particles.filter(p => p.life > 0);
+                }
+            }
+
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                } else {
+                    this.particles.forEach(p => p.draw());
+                }
+            }
+
+            explode() {
+                this.exploded = true;
+                for (let i = 0; i < 100; i++) {
+                    this.particles.push(new Particle(this.x, this.y, this.color));
+                }
+                fireworkSound.volume = 0.3; // Lower volume to balance with background music
+                fireworkSound.currentTime = 0; // Reset to start for each explosion
+                fireworkSound.play().catch(() => {});
+            }
+        }
+
+        const fireworks = [];
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.05) {
+                fireworks.push(new Firework());
+            }
+            fireworks.forEach((f, i) => {
+                f.update();
+                f.draw();
+                if (f.exploded && f.particles.length === 0) {
+                    fireworks.splice(i, 1);
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        createStars();
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
