@@ -137,10 +137,12 @@
             animation: glow 1.5s ease-in-out infinite alternate;
             white-space: nowrap;
         }
-        .surprise-button {
-            position: relative;
+        .button-container {
             margin-top: 30px;
             z-index: 4;
+            text-align: center;
+        }
+        .surprise-button {
             padding: 15px 30px;
             font-family: 'Great Vibes', cursive;
             font-size: 24px;
@@ -151,6 +153,10 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             animation: buttonGlow 1.5s ease-in-out infinite alternate;
+            visibility: visible;
+        }
+        .surprise-button.hidden {
+            visibility: hidden;
         }
         .surprise-button:hover {
             transform: scale(1.05);
@@ -264,10 +270,12 @@
                 0% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
                 100% { transform: translateX(-50%) translateY(-30px); opacity: 0; }
             }
+            .button-container {
+                margin-top: 20px;
+            }
             .surprise-button {
                 padding: 10px 20px;
                 font-size: 18px;
-                margin-top: 20px;
             }
             .popup-card {
                 padding: 20px;
@@ -302,7 +310,9 @@
                 </div>
             </div>
         </div>
-        <button class="surprise-button" id="surpriseButton">Click Here for Surprise Gift</button>
+        <div class="button-container">
+            <button class="surprise-button" id="surpriseButton">Click Here for Surprise Gift</button>
+        </div>
     </div>
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-card" id="popupCard">
@@ -351,9 +361,9 @@
                 this.x = x;
                 this.y = y;
                 this.color = color;
-                this.radius = Math.random() * 10 + 5;
-                this.vx = Math.random() * 8 - 4;
-                this.vy = Math.random() * 8 - 4;
+                this.radius = window.innerWidth <= 600 ? Math.random() * 8 + 4 : Math.random() * 10 + 5;
+                this.vx = window.innerWidth <= 600 ? Math.random() * 6 - 3 : Math.random() * 8 - 4;
+                this.vy = window.innerWidth <= 600 ? Math.random() * 6 - 3 : Math.random() * 8 - 4;
                 this.life = 60;
                 this.shape = Math.random() > 0.5 ? 'circle' : 'oval';
             }
@@ -472,7 +482,7 @@
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
             createBalloonBlast(x, y);
-            surpriseButton.style.display = 'none';
+            surpriseButton.classList.add('hidden');
             popupOverlay.style.display = 'flex';
             setTimeout(() => popupCard.classList.add('show'), 100);
         });
@@ -481,7 +491,7 @@
         closeButton.addEventListener('click', () => {
             popupOverlay.style.display = 'none';
             popupCard.classList.remove('show');
-            surpriseButton.style.display = 'block';
+            surpriseButton.classList.remove('hidden');
         });
 
         // Initialize
