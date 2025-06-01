@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festive Firecrackers with 3D Cake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great_Vibes&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1a1a3d, #2a2a5e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .cake-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .cake {
+            width: 550px;
+            height: 550px;
+            position: relative;
+            border-radius: 30px;
+            box-shadow: 
+                0 0 20px 10px rgba(26, 26, 61, 0.7),
+                0 0 40px 20px rgba(42, 42, 94, 0.5);
+        }
+        .cake img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+        .candle {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 60px;
+            background: linear-gradient(#f0e6d6, #e0d6c6);
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            z-index: 3;
+        }
+        .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 22px;
+            background: radial-gradient(#ffaa00, #ff5500);
+            border-radius: 50% 50% 0 0;
+            animation: flicker 0.2s infinite alternate;
+            z-index: 3;
+        }
+        .smoke {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: rgba(200, 200, 200, 0.5);
+            border-radius: 50%;
+            animation: smokeRise 1.5s infinite ease-out;
+        }
+        .smoke:nth-child(2) { animation-delay: 0.3s; left: 48%; }
+        .smoke:nth-child(3) { animation-delay: 0.6s; left: 52%; }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+        }
+        @keyframes smokeRise {
+            0% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+            100% { transform: translateX(-50%) translateY(-50px); opacity: 0; }
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .sky-text {
+            position: absolute;
+            top: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            text-align: center;
+            color: #ffffff;
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.6);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        .sky-subtext {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            letter-spacing: 2px;
+            line-height: 1.4;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.9), 0 0 25px rgba(255, 215, 0, 0.6);
+            animation: glow 1.5s ease-in-out infinite alternate;
+            white-space: nowrap;
+        }
+        .surprise-button {
+            position: relative;
+            margin-top: 30px;
+            z-index: 4;
+            padding: 15px 30px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+            color: #ffd700;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: buttonGlow 1.5s ease-in-out infinite alternate;
+        }
+        .surprise-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 5;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+            color: #ffd700;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            line-height: 1.8;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            animation: cardGlow 2s ease-in-out infinite alternate;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+            position: relative;
+        }
+        .popup-card.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .popup-card p {
+            margin: 10px 0;
+        }
+        .popup-card em {
+            font-style: italic;
+            color: #ffe4b5;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #ffd700;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .close-button:hover {
+            transform: scale(1.2);
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.6); }
+            100% { text-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8); }
+        }
+        @keyframes cardGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+        }
+        @keyframes buttonGlow {
+            0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        }
+        @media (max-width: 600px) {
+            .cake-container {
+                margin-top: 50px;
+            }
+            .sky-text {
+                font-size: 28px;
+                top: 2%;
+                letter-spacing: 2px;
+            }
+            .sky-subtext {
+                font-size: 20px;
+                top: 8%;
+                letter-spacing: 1.5px;
+            }
+            .cake {
+                width: 330px;
+                height: 330px;
+                box-shadow: 
+                    0 0 15px 8px rgba(26, 26, 61, 0.7),
+                    0 0 30px 15px rgba(42, 42, 94, 0.5);
+            }
+            .candle {
+                width: 12px;
+                height: 40px;
+                top: -40px;
+            }
+            .flame {
+                width: 8px;
+                height: 16px;
+                top: -14px;
+            }
+            .smoke {
+                width: 3px;
+                height: 3px;
+                top: -20px;
+            }
+            @keyframes smokeRise {
+                0% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+                100% { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+            }
+            .surprise-button {
+                padding: 10px 20px;
+                font-size: 18px;
+                margin-top: 20px;
+            }
+            .popup-card {
+                padding: 20px;
+                font-size: 14px;
+                line-height: 1.6;
+                max-width: 85%;
+            }
+            .popup-card p {
+                margin: 8px 0;
+            }
+            .close-button {
+                font-size: 16px;
+                top: 8px;
+                right: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="stars" id="stars"></div>
+    <div class="sky-text">Happy Birthday To You</div>
+    <div class="sky-subtext">Shofiyyah, I Love You Sayang</div>
+    <div class="cake-container">
+        <div class="cake">
+            <img src="https://raw.githubusercontent.com/HackBugs/birthday/main/3d-cake.jpg" alt="3D Chocolate Cake">
+            <div class="candle">
+                <div class="flame">
+                    <div class="smoke"></div>
+                    <div class="smoke"></div>
+                    <div class="smoke"></div>
+                </div>
+            </div>
+        </div>
+        <button class="surprise-button" id="surpriseButton">Click Here for Surprise Gift</button>
+    </div>
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-card" id="popupCard">
+            <button class="close-button" id="closeButton">×</button>
+            <p>It started with a snap—a fleeting moment on Snapchat where our paths crossed, so casual, so unassuming. We traded playful messages, laughed through silly filters, and shared glimpses of our days. Those moments felt light, like passing clouds, but they were quietly weaving something deeper.</p>
+            <p>Six months slipped by, each chat a brushstroke on the canvas of our connection. Your words became my comfort, your laughter my melody. Somewhere between late-night talks and shared dreams, my heart whispered, <em>this is love</em>. Shofiyyah, you turned my world into a symphony of warmth and wonder.</p>
+            <p>Today, as we celebrate your birthday, I’m grateful for every snap, every moment that led us here. You are my joy, my love, my forever. <em>Happy Birthday, my heart</em>—here’s to us, to love that grows with every beat.</p>
+        </div>
+    </div>
+    <audio id="birthdaySound" src="https://raw.githubusercontent.com/HackBugs/birthday/main/sound/happy-birthday-254480.mp3" preload="auto" loop autoplay></audio>
+    <audio id="fireworkSound" src="https://raw.githubusercontent.com/HackBugs/birthday/main/sound/firework.mp3" preload="auto"></audio>
+    <script>
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        const birthdaySound = document.getElementById('birthdaySound');
+        const fireworkSound = document.getElementById('fireworkSound');
+        const surpriseButton = document.getElementById('surpriseButton');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupCard = document.getElementById('popupCard');
+        const closeButton = document.getElementById('closeButton');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Play background music
+        birthdaySound.volume = 0.5;
+        birthdaySound.play().catch(() => {});
+
+        // Stars in the sky
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 50}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Balloon particle for blast
+        class BalloonParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 10 + 5;
+                this.vx = Math.random() * 8 - 4;
+                this.vy = Math.random() * 8 - 4;
+                this.life = 60;
+                this.shape = Math.random() > 0.5 ? 'circle' : 'oval';
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.03;
+                this.life--;
+                this.radius *= 0.99;
+            }
+
+            draw() {
+                ctx.beginPath();
+                if (this.shape === 'circle') {
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                } else {
+                    ctx.ellipse(this.x, this.y, this.radius, this.radius * 1.5, 0, 0, Math.PI * 2);
+                }
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Firework class
+        class Firework {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height;
+                this.targetY = Math.random() * canvas.height * 0.5;
+                this.vy = -(Math.random() * 5 + 5);
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                this.particles = [];
+                this.exploded = false;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.y += this.vy;
+                    if (this.y <= this.targetY) {
+                        this.explode();
+                    }
+                } else {
+                    this.particles.forEach(p => p.update());
+                    this.particles = this.particles.filter(p => p.life > 0);
+                }
+            }
+
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                } else {
+                    this.particles.forEach(p => p.draw());
+                }
+            }
+
+            explode() {
+                this.exploded = true;
+                for (let i = 0; i < 100; i++) {
+                    this.particles.push(new BalloonParticle(this.x, this.y, this.color));
+                }
+                fireworkSound.volume = 0.3;
+                fireworkSound.currentTime = 0;
+                fireworkSound.play().catch(() => {});
+            }
+        }
+
+        // Balloon blast for button
+        let balloonParticles = [];
+
+        function createBalloonBlast(x, y) {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeead'];
+            for (let i = 0; i < 30; i++) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                balloonParticles.push(new BalloonParticle(x, y, color));
+            }
+            fireworkSound.volume = 0.3;
+            fireworkSound.currentTime = 0;
+            fireworkSound.play().catch(() => {});
+        }
+
+        // Animation loop
+        const fireworks = [];
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (Math.random() < 0.05) {
+                fireworks.push(new Firework());
+            }
+            fireworks.forEach((f, i) => {
+                f.update();
+                f.draw();
+                if (f.exploded && f.particles.length === 0) {
+                    fireworks.splice(i, 1);
+                }
+            });
+
+            balloonParticles.forEach((p, i) => {
+                p.update();
+                p.draw();
+                if (p.life <= 0) {
+                    balloonParticles.splice(i, 1);
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Button click event
+        surpriseButton.addEventListener('click', () => {
+            const rect = surpriseButton.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            createBalloonBlast(x, y);
+            surpriseButton.style.display = 'none';
+            popupOverlay.style.display = 'flex';
+            setTimeout(() => popupCard.classList.add('show'), 100);
+        });
+
+        // Close button event
+        closeButton.addEventListener('click', () => {
+            popupOverlay.style.display = 'none';
+            popupCard.classList.remove('show');
+            surpriseButton.style.display = 'block';
+        });
+
+        // Initialize
+        createStars();
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
