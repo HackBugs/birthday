@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Animated Heart</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #111;
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 150px;
+            height: 135px;
+            transition: all 0.3s ease;
+        }
+
+        .heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Left side of heart */
+        .heart::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 30px;
+            width: 75px;
+            height: 120px;
+            border: 4px solid #ff3366;
+            border-radius: 75px 75px 0 0;
+            border-right: none;
+            border-bottom: none;
+            transform: rotate(-45deg);
+            transform-origin: right bottom;
+            box-shadow: 0 0 20px #ff0066, 
+                        inset 0 0 10px rgba(255, 51, 102, 0.5);
+        }
+
+        /* Right side of heart */
+        .heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 72px;
+            width: 75px;
+            height: 120px;
+            border: 4px solid #ff3366;
+            border-radius: 75px 75px 0 0;
+            border-left: none;
+            border-bottom: none;
+            transform: rotate(45deg);
+            transform-origin: left bottom;
+            box-shadow: 0 0 20px #ff0066, 
+                        inset 0 0 10px rgba(255, 51, 102, 0.5);
+        }
+
+        .glow {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255, 0, 102, 0.6) 0%, rgba(255, 0, 102, 0) 70%);
+            border-radius: 50%;
+            filter: blur(25px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .glow:nth-child(2) {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255, 102, 153, 0.4) 0%, rgba(255, 102, 153, 0) 70%);
+            animation: pulse 2.5s infinite ease-in-out;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.9;
+            }
+        }
+
+        .message {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-shadow: 0 0 5px rgba(255, 0, 102, 0.5);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .heart-container:hover .message {
+            opacity: 1;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: #ff3366;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="glow"></div>
+        <div class="glow"></div>
+        <div class="heart"></div>
+        <div class="message">Made with ❤️</div>
+        <div class="particles"></div>
+    </div>
+
+    <script>
+        // Heartbeat animation
+        const heart = document.querySelector('.heart');
+        const container = document.querySelector('.heart-container');
+        
+        function heartbeat() {
+            heart.style.transform = 'scale(1.15)';
+            setTimeout(() => {
+                heart.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        // Initial heartbeat
+        heartbeat();
+        // Continuous heartbeat
+        setInterval(heartbeat, 1500);
+
+        // Create floating particles
+        const particlesContainer = document.querySelector('.particles');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+            createParticle();
+        }
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Random properties
+            const size = Math.random() * 5 + 2;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 5;
+            const opacity = Math.random() * 0.5 + 0.1;
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+            particle.style.opacity = opacity;
+            particle.style.animation = `float ${duration}s linear ${delay}s infinite`;
+            
+            particlesContainer.appendChild(particle);
+        }
+
+        // Add floating animation for particles
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes float {
+                0% {
+                    transform: translate(0, 0) rotate(0deg);
+                    opacity: ${Math.random() * 0.5 + 0.1};
+                }
+                50% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(180deg);
+                    opacity: ${Math.random() * 0.7 + 0.3};
+                }
+                100% {
+                    transform: translate(0, 0) rotate(360deg);
+                    opacity: ${Math.random() * 0.5 + 0.1};
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Interactive effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            container.style.transform = `translate(${(x - 0.5) * 20}px, ${(y - 0.5) * 20}px)`;
+        });
+    </script>
+</body>
+</html>
