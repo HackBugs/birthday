@@ -95,8 +95,8 @@ canvas {
 }
 .candle {
     position: absolute;
-    top: 85px;
-    left: 25%;
+    top: 6px;
+    left: 63%;
     transform: translateX(-50%);
     width: 16px;
     height: 90px;
