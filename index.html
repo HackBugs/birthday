@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great_Vibes&family=Roboto:wght@300&display=swap" rel="stylesheet-2">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-hearts"></div> <!-- Added for background hearts -->
+    <div id="stars" class="stars"></div>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="sky-text">Shofiyyah</div>
+    <div class="sky-subtext">Happy Birthday, My Love! Sayangu.</div>
+    
+    <video id="loveVideo" class="love-video" autoplay muted loop playsinline>
+        <source src="video/love.mp4" type="video/mp4">
+    </video>
+    <video id="loveVideo2" class="love-video" autoplay muted loop playsinline>
+        <source src="video/love-2.mp4" type="video/mp4">
+    </video>
+    <video id="loveVideo3" class="love-video" autoplay muted loop playsinline>
+        <source src="video/love-3.mp4" type="video/mp4">
+    </video>
+    <video id="loveVideo4" class="love-video" autoplay muted loop playsinline>
+        <source src="video/love-4.mp4" type="video/mp4">
+    </video>
+    <video id="loveVideo5" class="love-video" autoplay muted loop playsinline>
+        <source src="video/love-5.mp4" type="video/mp4">
+    </video>
+
+    <img id="image1" class="love-image" src="image/1.png" alt="Image 1">
+    <img id="image2" class="love-image" src="image/2.png" alt="Image 2">
+    <img id="image3" class="love-image" src="image/3.jpg" alt="Image 3">
+    <img id="image4" class="love-image" src="image/4.jpg" alt="Image 4">
+    <img id="image5" class="love-image" src="image/5.jpg" alt="Image 5">
+    <img id="image6" class="love-image" src="image/6.jpg" alt="Image 6">
+    <img id="image7" class="love-image" src="image/7.jpg" alt="Image 7">
+    <img id="image8" class="love-image" src="image/8.jpg" alt="Image 8">
+    <img id="image9" class="love-image" src="image/9.jpg" alt="Image 9">
+    <img id="image10" class="love-image" src="image/10.jpg" alt="Image 10">
+
+    <div class="cake-container">
+        <div class="cake">
+            <img src="https://raw.githubusercontent.com/HackBugs/birthday/main/3d-cake.png" alt="Birthday Cake">
+            <div class="candle">
+                <div class="flame"></div>
+                <div class="smoke"></div>
+                <div class="smoke"></div>
+                <div class="smoke"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="surpriseButton" class="surprise-button">Click Here for Surprise Gift</button>
+    </div>
+
+    <div id="popupOverlay" class="popup-overlay">
+        <div id="popupCard" class="popup-card">
+            <button id="closeButton" class="close-button">&times;</button>
+            <p>Happy Birthday, my dearest! 🎉</p>
+            <p>Today is all about celebrating you and the incredible person you are. Your smile lights up my world, and I'm so grateful for every moment we share.</p>
+            <p><em>Here's to a day filled with love, laughter, and unforgettable memories!</em></p>
+            <p>With all my love, ❤️</p>
+        </div>
+    </div>
+
+    <audio id="birthdaySound" loop>
+        <source src="https://cdn.pixabay.com/audio/2024/08/21/audio_5d4e301672.mp3" type="audio/mp3">
+    </audio>
+    <audio id="fireworkSound">
+        <source src="https://cdn.pixabay.com/audio/2023/06/29/audio_ae6f2630cf.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
