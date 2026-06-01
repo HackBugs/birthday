@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great_Vibes&family=Roboto:wght@300&display=swap" rel="stylesheet-2">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400&family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-hearts"></div> <!-- Added for background hearts -->
+    <div class="background-hearts"></div>
     <div id="stars" class="stars"></div>
     <canvas id="fireworksCanvas"></canvas>
     <div class="sky-text">❤️Shofiyyah...</div>
@@ -54,27 +53,47 @@
         </div>
     </div>
 
-    <div class="button-container">
-        <button id="surpriseButton" class="surprise-button">Click Here for Surprise Gift</button>
+    <!-- 2026 Badge -->
+    <div class="year-badge-container">
+        <div class="btn-year-2026">
+            <span class="heart-beat">❤️</span> 2026
+        </div>
     </div>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Question Section -->
+    <div class="question-container" id="questionSection">
+        <p class="question-text">Click here if you are my baby doll? 🎀</p>
+        <div class="yn-buttons">
+            <button class="yes-btn" id="yesBtn" onclick="openSurprise()">Click 💕</button>
+            <!--<button class="no-btn" id="noBtn">No 🙅</button>-->
+        </div>
+    </div>
 
-<div class="button-container" style="margin-top: 30px;">
-    <button class="btn-year-2026">
-        <span class="heart-beat">❤️</span> 2026
-    </button>
-</div>
-
+    <!-- Popup Overlay -->
     <div id="popupOverlay" class="popup-overlay">
         <div id="popupCard" class="popup-card">
-            <button id="closeButton" class="close-button">&times;</button>
-            <p>Happy Birthday, Chintaku, ❤️ 🎉</p>
-            <p>Today is all about celebrating you and the incredible person you are. Your smile lights up my world, and I'm so grateful for every moment we share.</p>
-            <p>With all my love, ❤️</p>
-            <p>It started with a snap—a fleeting moment on Snapchat where our paths crossed, so casual, so unassuming. We traded playful messages, laughed through silly messages, and shared beautiful of our days. Those moments felt light, like passing clouds, but they were quietly weaving something deeper.</p>
-            <p>Six months slipped by, each chat a brushstroke on the canvas of our connection. Your words became my comfort, your laughter my melody. Somewhere between late-night talks and shared dreams, my heart whispered, <em>this is love</em>. Shofiyyah, you turned my world into a symphony of warmth and wonder.</p>
-            <p>Today, as we celebrate your birthday, I’m grateful for every snap, every moment that led us here. You are my joy, my love, my forever. <em>Happy Birthday, my heart</em>—here’s to us, to love that grows with every beat.</p>
+            <!-- Our photo as transparent background inside popup -->
+            <div class="popup-photo-bg"></div>
+            <button id="closeButton" class="close-button" onclick="closePopup()">&times;</button>
+            <div class="popup-content">
+                <p>Happy Birthday, Chintaku ❤️🎉</p>
+
+				<p>Today is all about celebrating you—the beautiful soul who makes my life brighter every day. Your smile still has the same magic it had when we first met, and I'm grateful for every moment we've shared.</p>
+				
+				<p>With every conversation, late-night chat, and memory we've made, my feelings for you grew stronger. You became my comfort, my happiness, and one of the most important parts of my life.</p>
+				
+				<p>On your 22nd birthday (2 June 2026), I just want to thank you for your love, care, patience, and all the beautiful memories we've created together.</p>
+				
+				<p>It all started with a simple snap on Snapchat. What began as a small moment turned into something truly special as we shared laughs, conversations, and became part of each other's lives.</p>
+				
+				<p>Last year, I wished you on your birthday, and today I'm wishing you again for the second time. The best part is that after all this time, I'm still here with you. ❤️</p>
+				
+				<p>Many people come and go, but when love is real, people stay. That's what makes our journey so special to me.</p>
+				
+				<p>Happy Birthday, my love. ❤️ Here's to another year of laughter, dreams, beautiful memories, and countless moments together.</p>
+				
+				<p>With all my love, ❤️</p>
+            </div>
         </div>
     </div>
 
@@ -86,5 +105,70 @@
     </audio>
 
     <script src="script.js"></script>
+    <script>
+        // ===== NO BUTTON — screen ke andar rahe, click na hone de =====
+        var noBtn = document.getElementById('noBtn');
+
+        // Pehle fixed position set kar do taaki offsetWidth sahi mile
+        noBtn.style.position = 'fixed';
+        noBtn.style.zIndex = '9999';
+
+        function runAway(e) {
+            if (e) e.preventDefault();
+
+            // Button dimensions
+            var btnW = noBtn.offsetWidth;
+            var btnH = noBtn.offsetHeight;
+
+            // Safe area — 10px margin har taraf
+            var margin = 10;
+            var safeMaxX = window.innerWidth  - btnW  - margin;
+            var safeMaxY = window.innerHeight - btnH  - margin;
+
+            // Agar screen bahut choti ho toh margin 0 kar do
+            if (safeMaxX < margin) safeMaxX = margin;
+            if (safeMaxY < margin) safeMaxY = margin;
+
+            var randomX = Math.floor(Math.random() * (safeMaxX - margin)) + margin;
+            var randomY = Math.floor(Math.random() * (safeMaxY - margin)) + margin;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top  = randomY + 'px';
+
+            // right/bottom override na kare
+            noBtn.style.right  = 'auto';
+            noBtn.style.bottom = 'auto';
+        }
+
+        // Pehli baar bhi ek jagah fix karo — question section ke paas dikhne ke liye nahi bhagana
+        // (initial position CSS se aayegi, JS sirf interact pe chalata hai)
+
+        noBtn.addEventListener('mouseover',  runAway);
+        noBtn.addEventListener('mousemove',  runAway);
+        noBtn.addEventListener('touchstart', function(e) { runAway(e); }, { passive: false });
+        noBtn.addEventListener('touchmove',  function(e) { runAway(e); }, { passive: false });
+        noBtn.addEventListener('click',      function(e) { runAway(e); });
+
+        // ===== YES BUTTON =====
+        function openSurprise() {
+            var overlay = document.getElementById('popupOverlay');
+            var card = document.getElementById('popupCard');
+            overlay.style.display = 'flex';
+            setTimeout(function() {
+                card.classList.add('show');
+            }, 10);
+            var sound = document.getElementById('birthdaySound');
+            if (sound) sound.play();
+        }
+
+        function closePopup() {
+            var overlay = document.getElementById('popupOverlay');
+            var card = document.getElementById('popupCard');
+            card.classList.remove('show');
+            setTimeout(function() {
+                overlay.style.display = 'none';
+            }, 500);
+        }
+    </script>
 </body>
 </html>
