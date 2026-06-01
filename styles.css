@@ -22,14 +22,14 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Behind everything */
+    z-index: -1;
     pointer-events: none;
 }
 .background-heart {
     position: absolute;
     pointer-events: none;
-    opacity: 0.3; /* Base opacity */
-    transition: opacity 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    opacity: 0.3;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
 }
 .background-heart::before,
 .background-heart::after {
@@ -39,8 +39,8 @@ canvas {
     box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
 }
 .background-heart.visible {
-    opacity: 0.8; /* More visible on cursor proximity */
-    box-shadow: 0 0 15px rgba(255, 51, 102, 0.8); /* Enhanced glow */
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
 }
 .love-video {
     position: absolute;
@@ -78,6 +78,8 @@ canvas {
 }
 .cake {
     width: 550px;
+	margin-right: 280px;
+	margin-top: 50px;
     height: 550px;
     position: relative;
     border-radius: 30px;
@@ -187,40 +189,108 @@ canvas {
     animation: glow 1.5s ease-in-out infinite alternate;
     white-space: nowrap;
 }
-.button-container {
-    margin-top: 30px;
+
+/* ===== 2026 BADGE ===== */
+.year-badge-container {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 40;
     text-align: center;
 }
-.surprise-button {
-    padding: 15px 30px;
-    font-family: 'Roboto', sans-serif;
-    top: 240PX;
-    right: 285px;
-    font-size: 24px;
+.btn-year-2026 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 52px;
+    font-weight: 700;
     color: #ffd700;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #ffd700;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 20px;
+    padding: 8px 40px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 18px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 215, 0, 0.7);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    animation: yearGlow 1.8s ease-in-out infinite alternate;
+    display: inline-block;
+	margin-bottom: 35px;
+    cursor: default;
+    user-select: none;
+}
+.heart-beat {
+    display: inline-block;
+    animation: heartBeat 1s ease-in-out infinite;
+}
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+@keyframes yearGlow {
+    0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); text-shadow: 0 0 18px rgba(255, 215, 0, 1); }
+    100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 55px rgba(255, 215, 0, 0.8); }
+}
+
+/* ===== QUESTION SECTION ===== */
+.question-container {
+    position: absolute;
+    bottom: 30px;
+	margin-bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    text-align: center;
+    white-space: nowrap;
+}
+.question-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 25px;
+    color: #ffe4b5;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+	margin-bottom: -2px;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+.yn-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+}
+.yes-btn {
+    font-family: 'Dancing Script', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1a3d;
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    border: none;
+    border-radius: 40px;
+    padding: 10px 36px;
     cursor: pointer;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.5);
     transition: transform 0.2s, box-shadow 0.2s;
     animation: buttonGlow 1.5s ease-in-out infinite alternate;
-    visibility: visible;
-    position: relative;
-    z-index: 40;
     outline: none;
+
 }
-.surprise-button.hidden {
-    visibility: hidden;
+.yes-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 28px rgba(255, 215, 0, 0.8);
 }
-.surprise-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-}
-.surprise-button:focus {
+.no-btn {
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffd700;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 51, 102, 0.6);
+    border-radius: 40px;
+    padding: 10px 36px;
+    cursor: pointer;
     outline: none;
-    border: 2px solid #ffd700;
+    /* position/left/top controlled by JS — no transition so it jumps instantly */
+    transition: none;
 }
+
+/* ===== POPUP ===== */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -228,66 +298,99 @@ canvas {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 50;
+    z-index: 100;
     display: none;
     align-items: center;
     justify-content: center;
 }
+
+/* Popup card — relative so photo-bg fills it exactly */
 .popup-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+    position: relative;
+    background: transparent;
     border-radius: 15px;
-    padding: 30px;
     max-width: 600px;
     width: 90%;
-    text-align: left;
-    color: #ffd700;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    max-height: 80vh;
+    overflow: hidden;         /* clips photo to card shape */
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
     animation: cardGlow 2s ease-in-out infinite alternate;
     opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.5s ease-in, transform 0.5s ease-in;
-    position: relative;
-    z-index: 51;
-    border: none;
+    z-index: 101;
+    border: 2px solid rgba(255, 215, 0, 0.35);
 }
 .popup-card.show {
     opacity: 1;
     transform: scale(1);
 }
-.popup-card p {
+
+/* Our photo — fills popup exactly, semi-transparent */
+.popup-photo-bg {
+    position: absolute;
+    inset: 0;                 /* top:0 right:0 bottom:0 left:0 */
+    background-image: url('image/ourpic.jpeg');
+    background-size: cover;
+    background-position: center top;
+    opacity: 0.30;            /* transparent overlay — text readable */
+    z-index: 0;
+    border-radius: 13px;
+}
+
+/* Text content sits above the photo */
+.popup-content {
+    position: relative;
+    z-index: 2;
+    padding: 30px;
+    color: #ffd700;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);  /* readable over photo */
+}
+.popup-content p {
     margin: 10px 0;
 }
-.popup-card em {
+.popup-content em {
     font-style: italic;
     color: #ffe4b5;
 }
+
 .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: transparent;
+    background: rgba(0,0,0,0.4);
     border: none;
     color: #ffd700;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     transition: transform 0.2s;
-    z-index: 52;
+    z-index: 102;
     outline: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 .close-button:hover {
     transform: scale(1.2);
 }
+
+/* ===== ANIMATIONS ===== */
 @keyframes glow {
     0% { text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.6); }
     100% { text-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8); }
 }
 @keyframes cardGlow {
     0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-    100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+    100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); }
 }
 @keyframes buttonGlow {
     0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
@@ -298,68 +401,27 @@ canvas {
     50% { opacity: 0.5; }
     100% { transform: translate(var(--drift-x), var(--drift-y)); opacity: 0.3; }
 }
+
+/* ===== MOBILE ===== */
 @media (max-width: 600px) {
-    .love-video, .love-image {
-        width: 80px;
-    }
-    .cake-container {
-        margin-top: 50px;
-    }
-    .sky-text {
-        font-size: 28px;
-        top: 2%;
-        letter-spacing: 2px;
-    }
-    .sky-subtext {
-        font-size: 20px;
-        top: 8%;
-        letter-spacing: 1.5px;
-    }
-    .cake {
-        width: 330px;
-        height: 330px;
-        box-shadow: 
-            0 0 15px 8px rgba(26, 26, 61, 0.7),
-            0 0 30px 15px rgba(42, 42, 94, 0.5);
-    }
-    .candle {
-        width: 12px;
-        height: 40px;
-        top: -40px;
-    }
-    .flame {
-        width: 8px;
-        height: 16px;
-        top: -14px;
-    }
-    .smoke {
-        width: 3px;
-        height: 3px;
-        top: -20px;
-    }
+    .love-video, .love-image { width: 80px; }
+    .cake-container { margin-top: 50px; }
+    .sky-text { font-size: 28px; top: 2%; letter-spacing: 2px; }
+    .sky-subtext { font-size: 20px; top: 8%; letter-spacing: 1.5px; }
+    .cake { width: 330px; height: 330px; }
+    .candle { width: 12px; height: 40px; top: -40px; }
+    .flame { width: 8px; height: 16px; top: -14px; }
+    .smoke { width: 3px; height: 3px; top: -20px; }
     @keyframes smokeRise {
         0% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
         100% { transform: translateX(-50%) translateY(-30px); opacity: 0; }
     }
-    .button-container {
-        margin-top: 20px;
-    }
-    .surprise-button {
-        padding: 10px 20px;
-        font-size: 18px;
-    }
-    .popup-card {
-        padding: 20px;
-        font-size: 14px;
-        line-height: 1.6;
-        max-width: 85%;
-    }
-    .popup-card p {
-        margin: 8px 0;
-    }
-    .close-button {
-        font-size: 16px;
-        top: 8px;
-        right: 8px;
-    }
+    .btn-year-2026 { font-size: 36px; padding: 6px 24px; letter-spacing: 4px; }
+    .year-badge-container { bottom: 130px; }
+    .question-text { font-size: 17px; }
+    .yes-btn, .no-btn { font-size: 20px; padding: 8px 26px; }
+    .question-container { bottom: 18px; }
+    .popup-content { padding: 20px; font-size: 14px; line-height: 1.6; }
+    .popup-content p { margin: 8px 0; }
+    .close-button { font-size: 16px; top: 8px; right: 8px; }
 }
